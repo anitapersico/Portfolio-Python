@@ -5,15 +5,22 @@ Software CLI per la gestione dell'inventario, dei prestiti e delle statistiche d
 """
 
 # Dizionario con l'inventario iniziale dei libri e le relative copie
+# I titoli vengono salvati in minuscolo per normalizzare i confronti
 inventario = {
-    "Cime tempestose": 5,
-    "Circe": 7,
-    "Orgoglio e pregiudizio": 8,
-    "After": 3
+    "cime tempestose": 5,
+    "circe": 7,
+    "orgoglio e pregiudizio": 8,
+    "after": 3
 }
 
 # Funzione per aggiungere un libro o aumentarne le copie
 def aggiungi_libro(titolo, copie):
+    titolo = titolo.lower()
+
+    if (copie <= 0):
+        print("errore, il numero di copie deve essere maggiore di zero")
+        return
+
     if (titolo in inventario):
         inventario[titolo] += copie
         print(f"il libro {titolo} è stato aggiornato: ora a stock ci sono {inventario[titolo]} copie")
@@ -23,6 +30,8 @@ def aggiungi_libro(titolo, copie):
 
 # Funzione per rimuovere un libro
 def rimuovi_libro(titolo):
+    titolo = titolo.lower()
+
     if (titolo in inventario):
         del inventario[titolo]
         print(f"il libro {titolo} è stato eliminato")
@@ -31,6 +40,8 @@ def rimuovi_libro(titolo):
 
 # Funzione per verificare se un libro è disponibile
 def verifica_disponibilita(titolo):
+    titolo = titolo.lower()
+
     if (titolo in inventario and inventario[titolo] > 0):
         print(f"sono disponibili {inventario[titolo]} copie del libro {titolo}")
         return True
@@ -40,6 +51,8 @@ def verifica_disponibilita(titolo):
 
 # Funzione per prendere in prestito una copia di un libro
 def prendi_in_prestito(titolo):
+    titolo = titolo.lower()
+
     if (titolo in inventario and inventario[titolo] > 0):
         inventario[titolo] -= 1
         print(f"è stato preso in prestito di una copia del libro {titolo}. copie disponibili al momento:{inventario[titolo]}")
@@ -73,6 +86,12 @@ def visualizza_libri():
 
 # Funzione per aggiungere copie a un libro già esistente
 def restaurare_libro(titolo, copie):
+    titolo = titolo.lower()
+
+    if (copie <= 0):
+        print("errore, il numero di copie deve essere maggiore di zero")
+        return
+
     if (titolo in inventario):
         inventario[titolo] += copie
         print(f"il libro {titolo} è stato aggiornato, copie: {copie}")
@@ -125,4 +144,3 @@ while True:
         break
     else:
         print("opzione non riconosciuta")
-
